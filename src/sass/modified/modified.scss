@@ -1,0 +1,86 @@
+@import url("./booklist.scss");
+
+
+.Red_Background{
+background-color: red !important;
+}
+.LightGray_Background {
+    background-color: #dbdbdb !important;
+}
+.transperentBg {
+    background-color: #ffffff00 !important;
+    background: #ffffff00 !important;
+}
+.boxShadowNone {
+box-shadow:none !important
+}
+.IssueAndReturnBox{
+    .react-datepicker-wrapper{ input{
+            padding: 16px 50px !important;
+    }}
+}
+
+.UserDataTable{
+        min-width: 25rem;
+        overflow: auto;
+     
+    .headerFunctionComponent{
+            max-width: 100% !important;
+            height: 3rem !important;
+    }
+
+    .cs_team_meta{
+        padding: 0 !important;
+    }
+}
+.cs_hero_info_wrap,
+.cs_hero.cs_style_1{
+    padding: 18px 0px !important;
+    border-radius: 0 !important;
+}
+.library_logo{
+     max-width: 35% !important;
+}
+.cs_footer_brand_icon{
+        width: 4rem !important;
+}
+.book-container{
+    position: relative;
+}
+.BoocCoverTitle{
+    left: 10%;
+        position: absolute;
+        top: 10%;
+        /* right: 10%; */
+        color: white;
+        font-size: 3rem;
+        font-family: serif;
+        line-height: 1;
+        text-align: left;
+        padding: 1rem;
+        text-transform: capitalize;
+            }
+.container{
+    .cs_banner_img{
+        img{
+            opacity: 0.5 !important;
+        }
+    }
+}
+.EditBook{
+    .cs_appointment_img{
+        img{ position: relative;
+        bottom: 4rem !important;
+            left: 4rem !important;}
+       
+    }
+}
+.NoRecordBox{ 
+        display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+            h3{
+                padding: 1rem;
+            }
+}
