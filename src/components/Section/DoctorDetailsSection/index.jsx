@@ -21,8 +21,7 @@ import { Button } from "react-bootstrap";
 import { USER_ID, baseUrl } from "../../../helpers/generalConstant";
 import DatePicker from "react-datepicker";
 import { BookCover3D } from "../../../helpers/designHelper";
-import CommonAutoComplatete from "../../CommonComponent/AutoComplate/CommonAutoComplate";
-import Autocomplete from "react-autocomplete";
+import CommonAutoComplatete from "../../CommonComponent/AutoComplate/CommonAutoComplate"; 
 export default function DoctorDetailsSection({
   bgUrl,
   imgUrl,
