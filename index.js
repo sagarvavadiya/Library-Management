@@ -1,35 +1,40 @@
 const express = require('express');
-const WebSocket = require('ws');
-
-// WebSocket URL for Binance BTC/USDT trade stream
-const socketUrl = 'wss://stream.binance.com:9443/ws/btcusdt@trade';
-
-// Create a WebSocket connection
-const socket = new WebSocket(socketUrl);
+const WebSocketClient = require('websocket').client;
+const client = new WebSocketClient();
 
 // Event: Connection Open
-socket.on('open', () => {
+client.on('connect', connection => {
   console.log('Connected to Binance WebSocket');
+
+  connection.on('message', message => {
+    if (message.type === 'utf8') {
+
+      // Set a new debounce timer
+
+        try {
+          const tradeData = JSON.parse(message.utf8Data);
+          const livePrice = parseFloat(tradeData.p); // Extract price
+
+          console.log(livePrice);
+          // Check each panding trade to be active
+
+        } catch (error) {
+          console.error('Error processing WebSocket message:', error);
+        }
+
+    }
+  });
+
+  connection.on('error', error => {
+    console.error('Connection error:', error);
+  });
+
+  connection.on('close', () => {
+    console.log('Connection closed');
+  });
 });
 
-// Event: Message Received
-socket.on('message', (data) => {
-  const tradeData = JSON.parse(data);
-
-  // Extract the price from the trade data
-  const price = tradeData.p; // 'p' is the price field in the message
-  console.log(`Live BTC/USDT Price: ${price}`);
-});
-
-// Event: Error
-socket.on('error', (error) => {
-  console.error('WebSocket error:', error);
-});
-
-// Event: Connection Closed
-socket.on('close', () => {
-  console.log('WebSocket connection closed');
-});
+client.connect('wss://stream.binance.com:9443/ws/btcusdt@trade');
 
 const app = express();
 
