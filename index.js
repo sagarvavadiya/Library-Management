@@ -1,4 +1,5 @@
 const express = require('express');
+const { createEntry, readEntries, blankEntry } = require('./manageActiveTrade');
 const WebSocketClient = require('websocket').client;
 const client = new WebSocketClient();
 
@@ -8,20 +9,27 @@ client.on('connect', connection => {
 
   connection.on('message', message => {
     if (message.type === 'utf8') {
-
       // Set a new debounce timer
 
-        try {
-          const tradeData = JSON.parse(message.utf8Data);
-          const livePrice = parseFloat(tradeData.p); // Extract price
+      try {
+        const tradeData = JSON.parse(message.utf8Data);
+        const livePrice = parseFloat(tradeData.p); // Extract price
 
-          console.log(livePrice);
-          // Check each panding trade to be active
-
-        } catch (error) {
-          console.error('Error processing WebSocket message:', error);
+        console.log(livePrice);
+        const trades = readEntries('history');
+        if (trades && trades.length < 100) {
+          createEntry(
+            {
+              exitPrice: livePrice,
+            },
+            'history',
+          );
         }
 
+        // Check each panding trade to be active
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
+      }
     }
   });
 
@@ -46,18 +54,37 @@ const data = [
 ];
 
 // GET API to fetch all data
-app.get('/api/users', (req, res) => {
+app.get('/users', (req, res) => {
+  console.log({ data });
   res.status(200).json({
     success: true,
     message: 'Users fetched successfully',
     data: data,
   });
 });
+app.get('/trades', (req, res) => {
+  const trades = readEntries('history');
+  console.log({trades})
+  res.status(200).json({
+    success: true,
+    message: 'Users fetched successfully',
+    data: trades,
+  });
+});
+app.get('/rm-trades', (req, res) => {
+  const trades = blankEntry('history');
+  console.log({trades})
+  res.status(200).json({
+    success: true,
+    message: 'Users fetched successfully',
+    data: trades,
+  });
+});
 
 // Simple API for fetching a single user by ID
 app.get('/api/users/:id', (req, res) => {
   const userId = parseInt(req.params.id, 10);
-  const user = data.find((u) => u.id === userId);
+  const user = data.find(u => u.id === userId);
 
   if (user) {
     res.status(200).json({
